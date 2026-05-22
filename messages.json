@@ -5,3 +5,31 @@
 "message":"hi khuthi",
 "status":"Stored"
 }
+{
+"messageID":"4411665530",
+"messageHash":"44:1:MESSAGE",
+"recipient":"+27831234567",
+"message":"Stored Message",
+"status":"Stored"
+}
+{
+"messageID":"0443007317",
+"messageHash":"04:8:MESSAGE",
+"recipient":"+27831234567",
+"message":"Test Message",
+"status":"Sent"
+}
+{
+"messageID":"4149921224",
+"messageHash":"41:1:MESSAGE",
+"recipient":"+27831234567",
+"message":"Stored Message",
+"status":"Stored"
+}
+{
+"messageID":"9946863657",
+"messageHash":"99:8:MESSAGE",
+"recipient":"+27831234567",
+"message":"Test Message",
+"status":"Sent"
+}
