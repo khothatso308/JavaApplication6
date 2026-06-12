@@ -86,7 +86,8 @@ public class LoginSystem {
                             System.out.println("\nQUICKCHAT MENU");
                             System.out.println("1. Send Messages");
                             System.out.println("2. Show recently sent messages");
-                            System.out.println("3. Quit");
+                            System.out.println("3. Stored message");
+                            System.out.println("4. quit");
 
                             System.out.print("Choose option: ");
 
@@ -188,23 +189,88 @@ public class LoginSystem {
                                 }
 
                             }
-                            // SHOW RECENT MESSAGES
-                            else if (option == 2) {
+                            // SHOW SENT MESSAGES
+                           else if (option == 2) {
 
-                                System.out.println("Coming Soon.");
+                             Message.displaySentMessages();
 
-                            }
-                            // QUIT
-                            else if (option == 3) {
+}
 
-                                System.out.println("Total messages sent: " + Message.totalMessages);
+                           // STORED MESSAGES MENU
+                           else if (option == 3) {
 
-                                System.out.println("Exiting QuickChat.");
+                           int storedOption = 0;
 
-                            } else {
+                           while (storedOption != 6) {
 
-                                System.out.println("Invalid option.");
-                            }
+                               System.out.println("\nSTORED MESSAGE MENU");
+                               System.out.println("1. Display Longest Message");
+                               System.out.println("2. Search Message ID");
+                               System.out.println("3. Search Recipient");
+                               System.out.println("4. Delete Message Using Hash");
+                               System.out.println("5. Display Report");
+                               System.out.println("6. Back");
+
+                              System.out.print("Choose option: ");
+                              storedOption = khuthi.nextInt();
+                              khuthi.nextLine();
+
+                  switch (storedOption) {
+
+                    case 1:
+
+                          Message.displayLongestMessage();
+                          break;
+
+                    case 2:
+
+                         System.out.print("Enter Message ID: ");
+                         String id = khuthi.nextLine();
+
+                         Message.searchByMessageID(id);
+                         break;
+
+                    case 3:
+
+                        System.out.print("Enter Recipient Number: ");
+                        String recipientSearch = khuthi.nextLine();
+
+                        Message.searchByRecipient(recipientSearch);
+                        break;
+
+                    case 4:
+
+                        System.out.print("Enter Message Hash: ");
+                        String hash = khuthi.nextLine();
+
+                       Message.deleteByHash(hash);
+                       break;
+
+                    case 5:
+
+                        Message.displayReport();
+                        break;
+
+                     case 6:
+        
+                       System.out.println("Returning to QuickChat...");
+                       break;
+
+                    default:
+
+                       System.out.println("Invalid option.");
+        }
+    }
+}
+
+        // QUIT
+           else if (option == 4) {
+
+                System.out.println("Total messages sent: " + Message.totalMessages);
+
+                System.out.println("Exiting QuickChat.");
+
+}
                         }
                     }
 
@@ -220,7 +286,7 @@ public class LoginSystem {
                     System.out.println("Invalid option");
             }
 
-        } while (choice != 3);
+        } while (choice != 4);
 
         khuthi.close();
     }
