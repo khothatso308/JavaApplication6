@@ -15,8 +15,14 @@ public class Message {
 
     public static int totalMessages = 0;
 
+    // Part 3 Arrays
     public static ArrayList<String> sentMessages = new ArrayList<>();
+    public static ArrayList<String> disregardedMessages = new ArrayList<>();
     public static ArrayList<String> storedMessages = new ArrayList<>();
+
+    public static ArrayList<String> messageHashes = new ArrayList<>();
+    public static ArrayList<String> messageIDs = new ArrayList<>();
+    public static ArrayList<String> recipients = new ArrayList<>();
 
     public Message(String recipient, String message) {
 
@@ -30,7 +36,7 @@ public class Message {
         createMessageHash();
     }
 
-    // Generate random 10-digit ID
+    // Generate Message ID
     public void generateMessageID() {
 
         Random random = new Random();
@@ -44,26 +50,22 @@ public class Message {
         messageID = id;
     }
 
-    // Check message ID
+    // Check Message ID
     public boolean checkMessageID() {
-
         return messageID.length() <= 10;
     }
 
-    // Validate recipient number
+    // Check Recipient
     public String checkRecipientCell() {
 
         if (recipient.startsWith("+") && recipient.length() <= 13) {
-
             return "Cell phone number successfully captured.";
-
-        } else {
-
-            return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
         }
+
+        return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
     }
 
-    // Create message hash
+    // Create Hash
     public void createMessageHash() {
 
         String firstTwo = messageID.substring(0, 2);
@@ -79,40 +81,48 @@ public class Message {
         messageHash = (firstTwo + ":" + messageNumber + ":" + lastWord).toUpperCase();
     }
 
-    // Send message
+    // Send Message
     public void sentMessage() {
 
         sentMessages.add(message);
+        recipients.add(recipient);
+        messageIDs.add(messageID);
+        messageHashes.add(messageHash);
 
         saveMessageToJson("Sent");
     }
 
-    // Store message
+    // Store Message
     public void storeMessage() {
 
         storedMessages.add(message);
+        recipients.add(recipient);
+        messageIDs.add(messageID);
+        messageHashes.add(messageHash);
 
         saveMessageToJson("Stored");
     }
 
-    // Delete message
+    // Disregard Message
     public void disregardMessage() {
+
+        disregardedMessages.add(message);
 
         System.out.println("Message deleted.");
     }
 
-    // Print message details
+    // Print Message Details
     public void printMessages() {
 
         System.out.println("\nMESSAGE DETAILS");
-        System.out.println("--------------------------");
+        System.out.println("----------------------");
         System.out.println("Message ID: " + messageID);
         System.out.println("Message Hash: " + messageHash);
         System.out.println("Recipient: " + recipient);
         System.out.println("Message: " + message);
     }
 
-    // Save to JSON file
+    // Save JSON
     public void saveMessageToJson(String status) {
 
         try {
@@ -121,9 +131,9 @@ public class Message {
 
             writer.write("{\n");
             writer.write("\"messageID\":\"" + messageID + "\",\n");
-            writer.write("\"messageHash\":\"" + messageHash + "\",\n");
             writer.write("\"recipient\":\"" + recipient + "\",\n");
             writer.write("\"message\":\"" + message + "\",\n");
+            writer.write("\"messageHash\":\"" + messageHash + "\",\n");
             writer.write("\"status\":\"" + status + "\"\n");
             writer.write("}\n");
 
@@ -132,6 +142,108 @@ public class Message {
         } catch (IOException e) {
 
             System.out.println("Error saving message.");
+        }
+    }
+
+    // Part 3 Methods
+
+    public static void displaySentMessages() {
+
+        System.out.println("\nSENT MESSAGES");
+
+        for (int i = 0; i < sentMessages.size(); i++) {
+
+            System.out.println("------------------");
+            System.out.println("Recipient: " + recipients.get(i));
+            System.out.println("Message: " + sentMessages.get(i));
+        }
+    }
+
+    public static void displayLongestMessage() {
+
+        String longest = "";
+
+        for (String msg : storedMessages) {
+
+            if (msg.length() > longest.length()) {
+                longest = msg;
+            }
+        }
+
+        System.out.println("\nLongest Message:");
+        System.out.println(longest);
+    }
+
+    public static void searchByMessageID(String id) {
+
+        for (int i = 0; i < messageIDs.size(); i++) {
+
+            if (messageIDs.get(i).equals(id)) {
+
+                System.out.println("Recipient: " + recipients.get(i));
+
+                if (i < storedMessages.size()) {
+                    System.out.println("Message: " + storedMessages.get(i));
+                }
+
+                return;
+            }
+        }
+
+        System.out.println("Message ID not found.");
+    }
+
+    public static void searchByRecipient(String number) {
+
+        boolean found = false;
+
+        for (int i = 0; i < recipients.size(); i++) {
+
+            if (recipients.get(i).equals(number)) {
+
+                found = true;
+
+                if (i < storedMessages.size()) {
+                    System.out.println(storedMessages.get(i));
+                }
+            }
+        }
+
+        if (!found) {
+            System.out.println("No messages found.");
+        }
+    }
+
+    public static void deleteByHash(String hash) {
+
+        for (int i = 0; i < messageHashes.size(); i++) {
+
+            if (messageHashes.get(i).equals(hash)) {
+
+                messageHashes.remove(i);
+
+                System.out.println("Message successfully deleted.");
+
+                return;
+            }
+        }
+
+        System.out.println("Hash not found.");
+    }
+
+    public static void displayReport() {
+
+        System.out.println("\nMESSAGE REPORT");
+
+        for (int i = 0; i < messageHashes.size(); i++) {
+
+            System.out.println("----------------------");
+            System.out.println("Hash: " + messageHashes.get(i));
+            System.out.println("Recipient: " + recipients.get(i));
+
+            if (i < storedMessages.size()) {
+                System.out.println("Message: " + storedMessages.get(i));
+            }
         }
     }
 }

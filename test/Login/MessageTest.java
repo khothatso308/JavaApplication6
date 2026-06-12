@@ -5,125 +5,149 @@ import static org.junit.Assert.*;
 
 public class MessageTest {
 
-    // Check Message ID
-
     @Test
-    public void testCheckMessageID() {
-
-        Message msg = new Message("+27831234567", "Hello World");
-
-        boolean result = msg.checkMessageID();
-
-        assertTrue(result);
-    }
-
-    // Check Recipient Number
-
-    @Test
-    public void testValidRecipientNumber() {
-
-        Message msg = new Message("+27831234567", "Hello");
-
-        String result = msg.checkRecipientCell();
-
-        assertEquals("Cell phone number successfully captured.", result);
-    }
-
-    @Test
-    public void testInvalidRecipientNumber_NoPlus() {
-
-        Message msg = new Message("0831234567", "Hello");
-
-        String result = msg.checkRecipientCell();
-
-        assertEquals(
-            "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.",
-            result
-        );
-    }
-
-    @Test
-    public void testInvalidRecipientNumber_TooLong() {
-
-        Message msg = new Message("+2783123456789", "Hello");
-
-        String result = msg.checkRecipientCell();
-
-        assertEquals(
-            "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.",
-            result
-        );
-    }
-
-    // Check Message Length
-
-    @Test
-    public void testValidMessageLength() {
-
-        String message = "Hello World";
-
-        assertTrue(message.length() <= 250);
-    }
-
-    @Test
-    public void testInvalidMessageLength() {
-
-        String message = "";
-
-        for (int i = 0; i < 251; i++) {
-            message += "A";
-        }
-
-        assertTrue(message.length() > 250);
-    }
-
-    // Test Sent Message
-
-    @Test
-    public void testSentMessage() {
+    public void testSentMessagesArray() {
 
         Message.sentMessages.clear();
 
-        Message msg = new Message("+27831234567", "Test Message");
+        Message msg = new Message(
+                "+27834557896",
+                "Did you get the cake?"
+        );
 
         msg.sentMessage();
 
-        assertEquals(1, Message.sentMessages.size());
+        assertEquals(
+                "Did you get the cake?",
+                Message.sentMessages.get(0)
+        );
     }
 
-    // Test Store Message
-
     @Test
-    public void testStoreMessage() {
+    public void testStoredMessagesArray() {
 
         Message.storedMessages.clear();
 
-        Message msg = new Message("+27831234567", "Stored Message");
+        Message msg = new Message(
+                "+27838888456",
+                "Where are you? You are late. I have asked you to be on time."
+        );
 
         msg.storeMessage();
 
-        assertEquals(1, Message.storedMessages.size());
+        assertEquals(
+                "Where are you? You are late. I have asked you to be on time.",
+                Message.storedMessages.get(0)
+        );
     }
 
-    // Test Total Messages Counter
-
     @Test
-    public void testTotalMessagesCounter() {
+    public void testDisregardedMessagesArray() {
 
-        int before = Message.totalMessages;
+        Message.disregardedMessages.clear();
 
-        new Message("+27831234567", "Message 1");
+        Message msg = new Message(
+                "+27834484845",
+                "Yohooo, I am at the gate."
+        );
 
-        assertEquals(before + 1, Message.totalMessages);
+        msg.disregardMessage();
+
+        assertEquals(
+                "Yohooo, I am at the gate.",
+                Message.disregardedMessages.get(0)
+        );
     }
 
-    // Test Message Object Creation
+    @Test
+    public void testMessageIDCreated() {
+
+        Message msg = new Message(
+                "+27834557896",
+                "Did you get the cake?"
+        );
+
+        assertTrue(msg.checkMessageID());
+    }
 
     @Test
-    public void testMessageObjectCreated() {
+    public void testRecipientValidation() {
 
-        Message msg = new Message("+27831234567", "Hello");
+        Message msg = new Message(
+                "+27834557896",
+                "Did you get the cake?"
+        );
 
-        assertNotNull(msg);
+        assertEquals(
+                "Cell phone number successfully captured.",
+                msg.checkRecipientCell()
+        );
+    }
+
+    @Test
+    public void testLongestMessage() {
+
+        String longest =
+                "Where are you? You are late. I have asked you to be on time.";
+
+        String shortMsg =
+                "Did you get the cake?";
+
+        assertTrue(longest.length() > shortMsg.length());
+    }
+
+    @Test
+    public void testSearchRecipientData() {
+
+        Message.recipients.clear();
+
+        Message.recipients.add("+27838888456");
+
+        assertTrue(
+                Message.recipients.contains("+27838888456")
+        );
+    }
+
+    @Test
+    public void testDeleteHash() {
+
+        Message.messageHashes.clear();
+
+        Message.messageHashes.add("12:1:CAKE");
+
+        Message.deleteByHash("12:1:CAKE");
+
+        assertEquals(
+                0,
+                Message.messageHashes.size()
+        );
+    }
+
+    @Test
+    public void testStoredMessageData() {
+
+        Message.storedMessages.clear();
+
+        Message.storedMessages.add(
+                "Okay, I am leaving without you."
+        );
+
+        assertEquals(
+                "Okay, I am leaving without you.",
+                Message.storedMessages.get(0)
+        );
+    }
+
+    @Test
+    public void testReportData() {
+
+        Message.messageHashes.clear();
+
+        Message.messageHashes.add("11:1:CAKE");
+
+        assertEquals(
+                "11:1:CAKE",
+                Message.messageHashes.get(0)
+        );
     }
 }

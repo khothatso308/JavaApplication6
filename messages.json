@@ -33,3 +33,45 @@
 "message":"Test Message",
 "status":"Sent"
 }
+{
+"messageID":"7264000232",
+"messageHash":"72:2:U",
+"recipient":"+27888888888",
+"message":"i lovr u",
+"status":"Stored"
+}
+{
+"messageID":"6177669602",
+"recipient":"+27693227330",
+"message":"i love you",
+"messageHash":"61:2:YOU",
+"status":"Stored"
+}
+{
+"messageID":"3834491351",
+"recipient":"+27565656565",
+"message":"i love you",
+"messageHash":"38:2:YOU",
+"status":"Sent"
+}
+{
+"messageID":"2841015624",
+"recipient":"+27898989898",
+"message":"yha neh",
+"messageHash":"28:5:NEH",
+"status":"Sent"
+}
+{
+"messageID":"4719672884",
+"recipient":"+27888888888",
+"message":"i love you",
+"messageHash":"47:2:YOU",
+"status":"Sent"
+}
+{
+"messageID":"3945459283",
+"recipient":"+27888888888",
+"message":"HI DEAR",
+"messageHash":"39:2:DEAR",
+"status":"Sent"
+}
